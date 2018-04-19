@@ -21,32 +21,99 @@
 				background-color: #fff;
 			}
 		</style>
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+	
+			.oa-contact-avatar {
+				width: 55px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 10px;
+			}
+			.oa-contact-name, oa-contact-position {
+				float: left;
+			}
+			.time{
+				font-size: 10px;
+				width: 100%;
+				float: left;
+				text-align: center;
+			}
+			.mui-badge-red{
+				font-size: 8px;
+				float: left;
+				margin-left: 34%;
+			}
+			.mui-right{
+				width: 15%;
+				float: right;
+
+			}
+			.mui-left {
+				width: 85%;
+				float: left;
+			}
+			.mui-table-view-chevron .mui-table-view-cell {
+				padding-right: 0px!important; 
+			}
+			
+			
+			
+			
+		</style>
+
 	</head>
 
 	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <h1 class="mui-title">消息</h1>
+		</header>
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			
 			<div class="mui-scroll">
-				<div class="title">
-					这是subNView模式选项卡中的第1个子页面，该页面展示一个支持单webview模式的下拉刷新、上拉加载的消息列表
-				</div>
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 1</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 2</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 3</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a href="" class="mui-navigate-right">Item 4</a>
+				
+				<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 3px;">
+					<li class="mui-table-view-cell"  v-for="row in msg">
+						<div class="oa-contact-cell mui-table ">
+							<div class="oa-contact-avatar mui-table-cell ">
+								<img v-bind:src="row.headimg" width="50px"/>
+							</div>
+							<div class="oa-contact-content mui-table-cell ">
+								
+								<div class="mui-left ">
+									<span class='name '>{{ row.username }}</span>
+									<p class='mui-ellipsis'>{{ row.lastmsg }}</p>
+								</div>
+								<div class='mui-right'>
+									<span class="time">{{ row.lasttime }}</span>
+									<span class="mui-badge mui-badge-red">{{ row.msgnum }}</span>
+								</div>
+							</div>
+						</div>
 					</li>
 					
 				</ul>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js"></script>
 		<script>
 			mui.init({
 				swipeBack: false,
@@ -54,48 +121,50 @@
 					container: '#pullrefresh',
 					down: {
 						callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
 					}
 				}
 			});
+			var vue = new Vue({
+				el: '#pullrefresh',
+    			data: {
+    				 msg: [
+				      { 
+				      	username: 'Neko',
+				      	headimg:'../images/60x60.gif',
+				      	lastmsg:'能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？',
+				      	lasttime:'12:22',
+				      	msgnum:'1'
+				      }
+				    ]
+    			}
+			})
 			/**
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
 				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for(var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
+					for(var i=0;i<10;i++){
+						vue.msg.push(
+							{ 
+					      	username: 'Neko'+i,
+					      	headimg:'../images/60x60.gif',
+					      	lastmsg:'能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？',
+					      	lasttime:'12:2'+i,
+					      	msgnum:'1'
+					      }
+						)
 					}
+					
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 					mui.toast('下拉刷新成功');
 				}, 1000);
 			}
-			var count = 0;
-			/**
-			 * 上拉加载具体业务实现
-			 */
-			function pullupRefresh() {
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for(var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-						table.appendChild(li);
-					}
-				}, 1000);
-			}
+			
+			mui.plusReady(function() {
+				mui('.mui-table-view').on('tap','.mui-table-view-cell',function(e){
+					
+				})
+			});
 		</script>
 	</body>
 

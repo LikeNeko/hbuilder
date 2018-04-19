@@ -4235,7 +4235,7 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 				destination,
 				duration;
 
-			deceleration = deceleration === undefined ? 0.0006 : deceleration;
+			deceleration = deceleration === undefined ? 0.0001 : deceleration;
 			destination = current + (speed * speed) / (2 * deceleration) * (distance < 0 ? -1 : 1);
 			duration = speed / deceleration;
 			if (destination < lowerMargin) {
