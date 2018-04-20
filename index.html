@@ -19,6 +19,7 @@
 				font-size: 15px;
 				padding-bottom: 51px;
 			}
+			
 		</style>
 	</head>
 
@@ -26,25 +27,91 @@
 		<header class="mui-bar mui-bar-nav">
 		    <h1 class="mui-title">首页</h1>
 		</header>
-		<div class="mui-content">
+		<div id='app' class="mui-content">
 			<div class="title">
 				<div class="mui-input-row mui-search">
 				    <input type="search" class="mui-input-clear" placeholder="搜索">
 				</div>
-								
+				<span id="notice_type">{{notice_type}}</span>
+				<span id="notice_content">{{notice_content}}</span>
+				<ul class="mui-table-view mui-grid-view mui-grid-9">
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					    <a href="#">
+					        <span class="mui-icon mui-icon-home"></span>
+					        <div class="mui-media-body">Home</div>
+					    </a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					    <a href="#">
+					        <span class="mui-icon mui-icon-email"><span class="mui-badge mui-badge-red">5</span></span>
+					        <div class="mui-media-body">Email</div>
+					    </a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					    <a href="#">
+					        <span class="mui-icon mui-icon-chatbubble"></span>
+					        <div class="mui-media-body">Chat</div>
+					    </a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					    <a href="#">
+					        <span class="mui-icon mui-icon-location"></span>
+					        <div class="mui-media-body">Location</div>
+					    </a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					    <a href="#">
+					        <span class="mui-icon mui-icon-search"></span>
+					        <div class="mui-media-body">Search</div>
+					    </a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					    <a href="#">
+					        <span class="mui-icon mui-icon-phone"></span>
+					        <div class="mui-media-body">Phone</div>
+					    </a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					    <a href="#">
+					        <span class="mui-icon mui-icon-search"></span>
+					        <div class="mui-media-body">Search</div>
+					    </a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					    <a href="#">
+					        <span class="mui-icon mui-icon-phone"></span>
+					        <div class="mui-media-body">Phone</div>
+					    </a>
+					</li>
+				</ul>
+				
+			
 			</div>
 		</div>
 
 		<script src="js/util.js"></script>
+		<script src="js/vue.min.js"></script>
 		<script type="text/javascript">
 			(function() {
 				mui.init({
-					swipeBack: true //启用右滑关闭功能
+					swipeBack: false //关闭右滑关闭功能
 				});
+				
+				// 使用vue模板引擎动态更新数据
+				var vue = new Vue({
+					el:"#app",
+					data:{
+						notice_type:'【公告】',
+						notice_content:"测试公告一条~~~~~~~~~~~~~~~~~~"
+					}
+				});
+				
 				mui.plusReady(function() {
 					var self = plus.webview.currentWebview(),
 						leftPos = Math.ceil((window.innerWidth - 60) / 2); // 设置凸起大图标为水平居中
-
+					
+				
+					
 					/**	
 					 * drawNativeIcon 绘制带边框的半圆，
 					 * 实现原理：
@@ -122,6 +189,8 @@
 					//自定义监听图标点击事件
 					var active_color = '#fff';
 					drawNativeIcon.addEventListener('click', function(e) {
+						// plus.webview.open('html/new-webview.html', 'new', {}, 'slide-in-bottom', 500);
+						
 						mui.alert('你点击了图标，你在此可以打开摄像头或者新窗口等自定义点击事件。', '悬浮球点击事件');
 						// 重绘字体颜色
 						if(active_color == '#fff') {
@@ -129,7 +198,7 @@
 								fontSrc: '_www/fonts/iconfont.ttf',
 								align: 'center',
 								color: '#000',
-								size: '30px'
+								size: '35px'
 							}, 'icon');
 							active_color = '#000';
 						} else {
@@ -137,7 +206,7 @@
 								fontSrc: '_www/fonts/iconfont.ttf',
 								align: 'center',
 								color: '#fff',
-								size: '30px'
+								size: '35px'
 							}, 'icon');
 							active_color = '#fff';
 						}
@@ -190,8 +259,13 @@
 							//更新当前活跃的页面
 							activePage = targetPage;
 						} else {
-							//第四个tab 打开新窗口
-							plus.webview.open('html/new-webview.html', 'new', {}, 'slide-in-right', 200);
+							//第四个tab 打开个人信息窗口，未登录展示登录页
+							if(user.isLogin()){
+								plus.webview.open('html/userinfo-window.html', 'userinfo_window', {}, 'slide-in-right', 200);
+							}else{
+								plus.webview.open('html/login.html', 'login', {}, 'slide-in-right', 200);
+							}
+							
 						}
 					});
 				});

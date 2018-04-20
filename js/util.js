@@ -2,7 +2,10 @@ var util = {
 	options: {
 		ACTIVE_COLOR: "#007aff",
 		NORMAL_COLOR: "#000",
-		subpages: ["html/tab-webview-subpage-chat.html", "html/tab-webview-subpage-contact.html"]
+		subpages: ["html/msg-list-chat.html", "html/friend-list.html"]
+	},
+	log:function(e){
+		console.log(JSON.stringify(e));
 	},
 	/**
 	 *  简单封装了绘制原生view控件的方法
@@ -105,3 +108,11 @@ var util = {
 		nviewEvent.drawText(currTag.text, currTag.position, util.changeColor(currTag.textStyles, color), currTag.id);
 	}
 };
+
+var user = {
+	// 判断用户是否登录
+	isLogin:function(){
+		return false;
+		
+	}
+}
