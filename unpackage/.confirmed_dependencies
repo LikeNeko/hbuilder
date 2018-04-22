@@ -7,14 +7,21 @@
       "fonts/mui.ttf",
       "fonts/iconfont.ttf",
       "js/util.js",
-      "html/tab-webview-subpage-chat.html"
+      "html/tab-webview-subpage-chat.html",
+      "html/msg-list-chat.html",
+      "html/msg/chat-list-main.html"
     ],
     "refer": [
       "html/tab-webview-subpage-setting.html",
       "html/tab-webview-subpage-chat.html",
       "html/tab-webview-subpage-contact.html",
       "html/tab-webview-subpage-about.html",
-      "html/new-webview.html"
+      "html/new-webview.html",
+      "html/friend-list.html",
+      "html/msg-list-chat.html",
+      "html/login.html",
+      "html/msg/chat-list-main.html",
+      "html/loginreg/login.html"
     ]
   },
   "launch.html": {
@@ -69,5 +76,44 @@
       "fonts/mui.ttf"
     ],
     "refer": []
+  },
+  "html/msg-list-chat.html": {
+    "refer": [
+      "html/msg-window.html",
+      "html/chat-list.html"
+    ],
+    "resources": [
+      "html/chat-list.html"
+    ]
+  },
+  "html/chat-list.html": {
+    "refer": [
+      "html/msg-window.html"
+    ]
+  },
+  "html/msg/chat-list-main.html": {
+    "resources": [
+      "html/msg/chat-list.html"
+    ],
+    "refer": [
+      "html/msg/chat-list.html"
+    ]
+  },
+  "html/msg/chat-list.html": {
+    "refer": [
+      "html/msg/msg-window.html"
+    ]
+  },
+  "html/login.html": {
+    "refer": [
+      "html/reg.html"
+    ]
+  },
+  "html/loginreg/login.html": {
+    "refer": [
+      "html/loginreg/reg.html",
+      "html/loginreg/forget_password.html",
+      "html/loginreg/question.html"
+    ]
   }
 }

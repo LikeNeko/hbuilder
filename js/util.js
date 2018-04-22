@@ -2,7 +2,8 @@ var util = {
 	options: {
 		ACTIVE_COLOR: "#007aff",
 		NORMAL_COLOR: "#000",
-		subpages: ["html/msg-list-chat.html", "html/friend-list.html"]
+		subpages: ["html/msg/chat-list-main.html", "html/friend-list.html"],
+		
 	},
 	log:function(e){
 		console.log(JSON.stringify(e));
@@ -37,7 +38,7 @@ var util = {
 			}
 			
 		}
-
+		
 		// 初始化第一个tab项为首次显示
 		temp[self.id] = "true";
 		mui.extend(aniShow, temp);
@@ -47,6 +48,7 @@ var util = {
 		for(var i = 0, len = subpages.length; i < len; i++) {
 
 			if(!plus.webview.getWebviewById(subpages[i])) {
+				
 				var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
 				//初始化隐藏
 				sub.hide();
@@ -54,6 +56,9 @@ var util = {
 				self.append(sub);
 			}
 		}
+		
+		
+
 	},
 	/**	
 	 * 点击切换tab窗口 
@@ -65,9 +70,10 @@ var util = {
 		} else {
 			//否则，使用fade-in动画，且保存变量
 			var temp = {};
-			temp[targetPage] = "true";
+			temp[targetPage.id] = "true";
 			mui.extend(aniShow, temp);
-			plus.webview.show(targetPage, "fade-in", 300);
+		
+			plus.webview.show(targetPage, "fade-in", 200);
 		}
 		//隐藏当前 除了第一个父窗口
 		if(activePage !== plus.webview.getLaunchWebview()) {
@@ -109,10 +115,16 @@ var util = {
 	}
 };
 
+
+var HOST = "http://api.nekom.cc/";
+var uapi = {
+	question: HOST + "?s=GetQuestions.Question",
+	set_reply:HOST + "?s=GetQuestions.SetReply"
+}
 var user = {
 	// 判断用户是否登录
 	isLogin:function(){
 		return false;
-		
 	}
+	
 }

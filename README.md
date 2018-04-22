@@ -20,6 +20,23 @@
 
 ## 待解决的bug
 1. 底部导航横放手机拉扁问题
+2. 安卓下拉bug ：
+解决方案，加入子webview页，形成index -> chat-list-main -> chat-list页结构
+3. 安卓底部导航被输入法顶起 ：
+解决方案：
+```
+window.onresize = function() {
+	var heightView = document.documentElement.clientHeight || document.body.clientHeight;
+	if(heightView < height) {
+		plus.nativeObj.View.getViewById("tabBar").hide()
+		plus.nativeObj.View.getViewById("icon").hide()
+	}else{
+		plus.nativeObj.View.getViewById("tabBar").show()
+		plus.nativeObj.View.getViewById("icon").show()
+	}
+}
+```
+4. vue的表单绑定问题 ：解决，question.html有相关实现
 
 ## 已实现的
 1. 中间的字从m改成‘宅’

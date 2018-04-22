@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<style>
 			.ui-page-login,
 			body {
@@ -131,10 +131,10 @@
 
 			</div>
 		</div>
-		<script src="../js/mui.min.js"></script>
-		<script src="../js/mui.enterfocus.js"></script>
-		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/app.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.enterfocus.js"></script>
+		<script src="../../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/app.js"></script>
 		<script>
 			(function($, doc) {
 				$.init({
@@ -175,7 +175,7 @@
 									//如果微信未安装，则为不启用状态
 									btn.setAttribute('class', 'oauth-btn' + (!isInstalled && service.id === 'weixin' ? (' disabled') : ''));
 									btn.authId = service.id;
-									btn.style.backgroundImage = 'url("../images/' + service.id + '.png")'
+									btn.style.backgroundImage = 'url("../../images/' + service.id + '.png")'
 									oauthArea.appendChild(btn);
 								}
 							}
@@ -237,8 +237,10 @@
 							toMain();
 						});
 					});
+					
 					$.enterfocus('#login-form input', function() {
 						$.trigger(loginButton, 'tap');
+						
 					});
 					autoLoginButton.classList[settings.autoLogin ? 'add' : 'remove']('mui-active')
 					autoLoginButton.addEventListener('toggle', function(event) {
@@ -249,22 +251,24 @@
 						}, 50);
 					}, false);
 					regButton.addEventListener('tap', function(event) {
-						$.openWindow({
-							url: 'reg.html',
-							id: 'reg',
-							preload: true,
-							show: {
-								aniShow: 'pop-in'
-							},
-							styles: {
-								popGesture: 'hide'
-							},
-							waiting: {
-								autoShow: false
-							}
-						});
+						plus.webview.open('question.html', 'question', {}, 'slide-in-right', 200);
+//						$.openWindow({
+//							url: 'reg.html',
+//							id: 'reg',
+//							preload: true,
+//							show: {
+//								aniShow: 'pop-in'
+//							},
+//							styles: {
+//								popGesture: 'hide'
+//							},
+//							waiting: {
+//								autoShow: false
+//							}
+//						}); 
 					}, false);
 					forgetButton.addEventListener('tap', function(event) {
+						
 						$.openWindow({
 							url: 'forget_password.html',
 							id: 'forget_password',
