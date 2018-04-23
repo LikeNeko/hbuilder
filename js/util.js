@@ -128,3 +128,15 @@ var user = {
 	}
 	
 }
+//var phal_api = {
+//	get:function(uapiname,data,func){
+//		mui.ajax(uapiname, {
+//			data:data,
+//			dataType:'json',//服务器返回json格式数据
+//			type:'get',//HTTP请求类型
+//			success:function(e){
+//				return func(e);
+//			}
+//		})	
+//	}
+//}

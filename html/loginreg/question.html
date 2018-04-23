@@ -46,7 +46,7 @@
 				 	<h5>Tip：不要被题目的表象所迷惑啦~这里欢迎任何一个'有心'的人加入哦~</h5>
 				</div>
 				<form id="quest" class="mui-input-group"  style="margin-top: 2px;" >
-					<p v-if="!questions">现在你看到我了</p>
+					<p v-if="!questions[0]">正在加载中...</p> 
 			        <div class="mui-input-row" v-for="(val,index) in questions" style="margin-top: 2px;">
 			            <label class="" >{{val.title_num}}:{{val.title}}</label>
 				        <input type="text"  v-model="val.key"  class="mui-input-clear" placeholder="喵喵喵~在这里输入~">
@@ -59,7 +59,7 @@
 		    		----题目来自异次元的某群群成员们
 		    	</div>
 			</div>
-			<button v-on:click="tijiao" type="button" style="margin-left:25%;width: 50%;" class="mui-btn mui-text-center mui-btn-red mui-btn-block">提交 ＞▽＜ </button>
+			<button id='tijiao' v-on:click="tijiao" data-loading-text="提交中" type="button" style="margin-left:25%;width: 50%;" class="mui-btn mui-text-center mui-btn-red mui-btn-block">提交 ＞▽＜ </button>
 		    
 			
 		</div>
@@ -71,31 +71,66 @@
 			var vue = new Vue({
 				el: '#app',
 				data: {
+					isnull:true,
 					questions: []
 				},
 				methods:{
 					tijiao: function (event) {
-						
+						var isbreak = false;
 						// 防止有空的提交
 						mui.each(this.questions,function(index,item){
 							
 						  	if(item.key == '' || item.key == null){
+						  		isbreak = true;
 						  		mui.toast(item.title_num + '题忘了填哦！');
 						  		return false;
 						  	}
 						  	
 						}) 
 						
-					  	mui.ajax(uapi.set_reply, {
-							data:{
-								'data':JSON.stringify(this.questions) 
-							},
-							dataType:'json',//服务器返回json格式数据
-							type:'post',//HTTP请求类型
-							success:function(e){
-								util.log(e)
-							}
-						})			
+						if(isbreak){
+							return false;
+						} 
+						
+						var uuid = plus.device.uuid;
+						
+						if(uuid){
+							mui('#tijiao').button('loading');
+							mui.ajax(uapi.set_reply, {
+								data:{
+									reply:this.questions,
+									uuid:uuid
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								success:function(e){
+									
+									switch(e.ret){
+										case 401:
+											mui.toast('设备id发送失败或者回答提交失败请重试一下~');
+											break;
+										case 402:
+											mui.toast('入库失败！');
+											break;
+										case 403:
+											mui.toast('已经提交过了！');
+											mui('#tijiao').button('reset');
+											mui.back()
+											break;
+										case 200:
+											mui.toast("发送成功！请等待审核~");
+											mui('#tijiao').button('reset');
+											mui.back();
+											
+									}
+									
+									
+								}
+							})		
+						}else{
+							mui.toast('获取设备id出错~提交结果失败！')
+						}
+					  		
     				},
     				print:function(){
     					util.log(this.questions);
