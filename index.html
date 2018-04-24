@@ -164,23 +164,28 @@
 						leftPos = Math.ceil((window.innerWidth - 60) / 2); // 设置凸起大图标为水平居中
 						var height = document.documentElement.clientHeight || document.body.clientHeight;
 					
-					// 输入法顶起webview的问题
-					window.onresize = function() {
-						var heightView = document.documentElement.clientHeight || document.body.clientHeight;
-						var bar = plus.nativeObj.View.getViewById("tabBar");
-						var icon = plus.nativeObj.View.getViewById("icon");
-						if(heightView < height) {
-							if(bar && icon){
-								bar.hide();
-								icon.hide();
-							}
-						}else{
-							if(bar && icon){
-								bar.show();
-								icon.show();
+					self.setStyle({popGesture:'none'}); // 关闭ios系统的侧滑返回
+					
+					if(mui.os.android){
+						// 输入法顶起webview的问题
+						window.onresize = function() {
+							var heightView = document.documentElement.clientHeight || document.body.clientHeight;
+							var bar = plus.nativeObj.View.getViewById("tabBar");
+							var icon = plus.nativeObj.View.getViewById("icon");
+							if(heightView < height) {
+								if(bar && icon){
+									bar.hide();
+									icon.hide();
+								}
+							}else{
+								if(bar && icon){
+									bar.show();
+									icon.show();
+								}
 							}
 						}
 					}
+					
 					/**	
 					 * drawNativeIcon 绘制带边框的半圆，
 					 * 实现原理：
@@ -349,6 +354,7 @@
 							}else{
 								
 								plus.webview.open('html/loginreg/login.html', 'login', {}, 'slide-in-right', 200);
+//								mui.openWindow('html/loginreg/login.html', 'login',{}, )
 							}
 							
 						}

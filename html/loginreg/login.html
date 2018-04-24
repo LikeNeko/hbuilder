@@ -251,7 +251,21 @@
 						}, 50);
 					}, false);
 					regButton.addEventListener('tap', function(event) {
-						plus.webview.open('question.html', 'question', {}, 'slide-in-right', 200);
+					
+						$.openWindow({
+							url: 'question.html',
+							id: 'question',
+							preload: false,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: true
+							}
+						}); 
 //						$.openWindow({
 //							url: 'reg.html',
 //							id: 'reg',

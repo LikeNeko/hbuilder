@@ -367,8 +367,9 @@
 					}
 				});
 				mui.init({
-					swipeBack: false //关闭右滑关闭功能
+					swipeBack: true //关闭右滑关闭功能
 				});
+				
 				template.config('escape', false);
 				
 				if(mui.os.ios){
@@ -387,7 +388,8 @@
 
 				$.plusReady(function() {
 					plus.webview.currentWebview().setStyle({
-						softinputMode: "adjustResize"
+						softinputMode: "adjustResize",
+						popGesture:'none'
 					});
 					var showKeyboard = function() {
 						if ($.os.ios) {
