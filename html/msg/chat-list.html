@@ -113,12 +113,11 @@
 			mui.init({
 				pullRefresh: {
 					container: '#pullrefresh',
-					
 					down: {
 						contentdown : "喵?不要拉咱!~",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
 				        contentover : "放开咱啦！！！",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
 				        contentrefresh : "好可恶！（啜泣~",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
-						auto: true,
+						auto: user.isLogin(),// 登录了则第一次自动刷新
 						callback: pulldownRefresh
 					}
 				}
@@ -142,23 +141,27 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
+				
 				setTimeout(function() {
-					for(var i=0;i<10;i++){
-						vue.msg.push(
-							{ 
-					      	username: 'Neko'+i,
-					      	headimg:'../../images/60x60.gif',
-					      	lastmsg:'能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？',
-					      	lasttime:'12:2'+i,
-					      	msgnum:'1'
-					      }
-						)
-						
+					if(user.isLogin()){
+						for(var i=0;i<10;i++){
+							vue.msg.push(
+								{ 
+							      	username: 'Neko'+i,
+							      	headimg:'../../images/60x60.gif',
+							      	lastmsg:'能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？',
+							      	lasttime:'12:2'+i,
+							      	msgnum:'1'
+						        }
+							)
+							
+						}
 					}
-					
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 					mui.toast('数据更新成功呢！');
 				}, 1000);
+				
+				
 			}
 			
 			mui.plusReady(function() {

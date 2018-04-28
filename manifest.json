@@ -4,13 +4,13 @@
 		"iPhone",
 		"iPad"
 	],
-	"id": "H531EA8D7",/*应用的标识，创建应用时自动生成，勿手动修改*/
-	"name": "test",/*应用名称，程序桌面图标名称*/
+	"id": "H5FF46402",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "化蝶",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0",/*应用版本名称*/
 		"code": ""
 	},
-	"description": "nativeObj模式底部选项卡 + 底部悬浮大球图标 + webview模式子窗口官方示例",/*应用描述信息*/
+	"description": "暂无",/*应用描述信息*/
 	"icons": {
 		"72": "icon.png"
 	},
@@ -260,9 +260,9 @@
 		},
 		"splashscreen": {
 			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
-			"waiting": true
+			"waiting": true,"delay":"1000"
 		},
-		"popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
+		"popGesture": "none",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
 		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
 		"distribute": {
@@ -337,11 +337,11 @@
 					}
 				},
 				"android": {
-					"mdpi": "", /*普通屏程序图标，分辨率：48x48*/
-					"ldpi": "", /*大屏程序图标，分辨率：48x48*/
-					"hdpi": "", /*高分屏程序图标，分辨率：72x72*/
-					"xhdpi": "",/*720P高分屏程序图标，分辨率：96x96*/
-					"xxhdpi": ""
+					"mdpi": "images/logo-180x180.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "images/logo-180x180.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "images/logo-180x180.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "images/logo-180x180.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "images/logo-180x180.png","xxxhdpi":"images/logo-192x192.png"
 				}
 			},
 			"splashscreen": {

@@ -47,12 +47,13 @@
 				</div>
 				<form id="quest" class="mui-input-group"  style="margin-top: 2px;" >
 					<p v-if="!questions[0]">正在加载中...</p> 
-			        <div class="mui-input-row" v-for="(val,index) in questions" style="margin-top: 2px;">
-			            <label class="" >{{val.title_num}}:{{val.title}}</label>
-				        <input type="text"  v-model="val.key"  class="mui-input-clear" placeholder="喵喵喵~在这里输入~">
-			          
-			        </div>
-
+					
+					    <div class="mui-input-row" v-for="(val,index) in questions" style="margin-top: 2px;">
+				            <label class="" >{{val.title_num}}:{{val.title}}</label>
+					        <input type="text"  v-model="val.key"  class="mui-input-clear" placeholder="喵喵喵~在这里输入~">
+				          
+				        </div>
+					  
 		    	</form>
 		    
 		    	<div class="mui-card-footer">
@@ -81,9 +82,9 @@
 						mui.each(this.questions,function(index,item){
 							
 						  	if(item.key == '' || item.key == null){
-						  		isbreak = true;
+						  		isbreak = true;// 跳出提交逻辑
 						  		mui.toast(item.title_num + '题忘了填哦！');
-						  		return false;
+						  		return false;// 跳出无意义的循环
 						  	}
 						  	
 						}) 
@@ -108,9 +109,11 @@
 									switch(e.ret){
 										case 401:
 											mui.toast('设备id发送失败或者回答提交失败请重试一下~');
+											mui('#tijiao').button('reset');
 											break;
 										case 402:
 											mui.toast('入库失败！');
+											mui('#tijiao').button('reset');
 											break;
 										case 403:
 											mui.toast('已经提交过了！');
@@ -140,6 +143,7 @@
 			});
 			
 			mui.plusReady(function(){
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
 				mui.ajax(uapi.question, {
 					data: {},
 					dataType:'json',//服务器返回json格式数据

@@ -1,3 +1,18 @@
+var HOST = "http://api.nekom.cc/";
+var uapi = {
+	question: HOST + "?s=GetQuestions.Question",
+	set_reply:HOST + "?s=GetQuestions.SetReply"
+}
+var user = {
+	// 判断用户是否登录
+	isLogin:function(){
+		localStorage.setItem('islogin','0');
+		
+		return localStorage.getItem('islogin')==0?false:true;
+	}
+	
+}
+
 var util = {
 	options: {
 		ACTIVE_COLOR: "#007aff",
@@ -5,8 +20,39 @@ var util = {
 		subpages: ["html/msg/chat-list-main.html", "html/friend-list.html"],
 		
 	},
+	/**
+	 * 封装log方法
+	 * @param {Object} e
+	 */
 	log:function(e){
 		console.log(JSON.stringify(e));
+	},
+	/**
+	 * 验证设备基本需要
+	 */
+	selfCheck:function(){
+		if(!mui.os.plus){
+			mui.alert("系统不支持5+可能会出现一些问题！",'提示')
+		}
+		if(!plus.device.uuid){
+			mui.alert("设备唯一值获取失败！"+plus.os.uuid,'提示')
+		}
+		
+		if(!user.isLogin()){
+			util.log('no login ')// 没有登录时打开登录页
+			
+			mui.openWindow({
+				url:"html/loginreg/login.html",
+				preload:true,
+				styles:{
+					popGesture: 'hide'
+				},
+				waiting: {
+					autoShow: true
+				}
+			})
+			return false;
+		}
 	},
 	/**
 	 *  简单封装了绘制原生view控件的方法
@@ -75,6 +121,7 @@ var util = {
 		
 			plus.webview.show(targetPage, "fade-in", 200);
 		}
+		
 		//隐藏当前 除了第一个父窗口
 		if(activePage !== plus.webview.getLaunchWebview()) {
 			plus.webview.hide(activePage);
@@ -116,27 +163,3 @@ var util = {
 };
 
 
-var HOST = "http://api.nekom.cc/";
-var uapi = {
-	question: HOST + "?s=GetQuestions.Question",
-	set_reply:HOST + "?s=GetQuestions.SetReply"
-}
-var user = {
-	// 判断用户是否登录
-	isLogin:function(){
-		return false;
-	}
-	
-}
-//var phal_api = {
-//	get:function(uapiname,data,func){
-//		mui.ajax(uapiname, {
-//			data:data,
-//			dataType:'json',//服务器返回json格式数据
-//			type:'get',//HTTP请求类型
-//			success:function(e){
-//				return func(e);
-//			}
-//		})	
-//	}
-//}
