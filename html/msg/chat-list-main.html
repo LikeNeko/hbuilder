@@ -49,9 +49,12 @@
 				}]
 				
 			});
-			var self = plus.webview.currentWebview();
-			self.setStyle({
-				popGesture:'none'
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				self.setStyle({
+					popGesture:'none'
+				})
+			
 			})
 			
 			

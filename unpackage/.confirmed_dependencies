@@ -21,7 +21,9 @@
       "html/msg-list-chat.html",
       "html/login.html",
       "html/msg/chat-list-main.html",
-      "html/loginreg/login.html"
+      "html/loginreg/login.html",
+      "html/search/search.html",
+      "html/game/mine/index.html"
     ]
   },
   "launch.html": {
@@ -89,7 +91,8 @@
   "html/chat-list.html": {
     "refer": [
       "html/msg-window.html"
-    ]
+    ],
+    "resources": []
   },
   "html/msg/chat-list-main.html": {
     "resources": [
@@ -102,18 +105,21 @@
   "html/msg/chat-list.html": {
     "refer": [
       "html/msg/msg-window.html"
-    ]
+    ],
+    "resources": []
   },
   "html/login.html": {
     "refer": [
       "html/reg.html"
-    ]
+    ],
+    "resources": []
   },
   "html/loginreg/login.html": {
     "refer": [
       "html/loginreg/reg.html",
       "html/loginreg/forget_password.html",
       "html/loginreg/question.html"
-    ]
+    ],
+    "resources": []
   }
 }

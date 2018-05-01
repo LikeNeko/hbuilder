@@ -253,24 +253,10 @@
 					}, false);
 					regButton.addEventListener('tap', function(event) {
 					
-						$.openWindow({
-							url: 'question.html',
-							id: 'question',
-							preload: false,
-							show: {
-								aniShow: 'pop-in'
-							},
-							styles: {
-								popGesture: 'hide'
-							},
-							waiting: {
-								autoShow: true
-							}
-						}); 
 //						$.openWindow({
-//							url: 'reg.html',
-//							id: 'reg',
-//							preload: true,
+//							url: 'question.html',
+//							id: 'question',
+//							preload: false,
 //							show: {
 //								aniShow: 'pop-in'
 //							},
@@ -278,9 +264,23 @@
 //								popGesture: 'hide'
 //							},
 //							waiting: {
-//								autoShow: false
+//								autoShow: true
 //							}
 //						}); 
+						$.openWindow({
+							url: 'html/loginreg/reg.html',
+						
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						}); 
 					}, false);
 					forgetButton.addEventListener('tap', function(event) {
 						

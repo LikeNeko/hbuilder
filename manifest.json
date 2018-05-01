@@ -5,7 +5,7 @@
 		"iPad"
 	],
 	"id": "H5FF46402",/*应用的标识，创建应用时自动生成，勿手动修改*/
-	"name": "化蝶",/*应用名称，程序桌面图标名称*/
+	"name": "喵次元",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0",/*应用版本名称*/
 		"code": ""
@@ -395,7 +395,9 @@
 					"html/tab-webview-subpage-contact.html",
 					"html/new-webview.html",
 					"html/login.html",
-					"html/loginreg/login.html"
+					"html/loginreg/login.html",
+					"html/search/search.html",
+					"html/game/mine/index.html"
 				],
 				"priority": 0
 			},

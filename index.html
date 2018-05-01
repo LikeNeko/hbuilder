@@ -38,7 +38,7 @@
 					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					    <a href="#">
 					        <span class="mui-icon mui-icon-home"></span>
-					        <div class="mui-media-body">Home</div>
+					        <div class="mui-media-body">Mine</div>
 					    </a>
 					</li>
 					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -372,6 +372,28 @@
 							}
 							
 						}
+				
+					});
+					/**
+					 * Mine
+					 */
+					mui('.mui-table-view-cell')[0].addEventListener('click', function(e) {
+						mui.openWindow({
+							url: 'html/game/mine/index.html',
+						
+							preload: false,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						})
+							
+				
 					});
 				});
 			})();
