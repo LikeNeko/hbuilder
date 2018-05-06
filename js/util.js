@@ -1,8 +1,9 @@
 var HOST = "http://api.nekom.cc/";
 var uapi = {
-	question: HOST + "?s=Questions.GetQuestion",// 获取问题列表
-	set_reply:HOST + "?s=Questions.SetReply",//提交问题
-	reg_user: HOST + "?s=User.SetUser"
+	question: "Questions.GetQuestion",// 获取问题列表
+	set_reply:"Questions.SetReply",//提交问题
+	reg_user: "User.SetUser",// 注册
+	login_user:"User.Login"  // 登陆
 	
 }
 
@@ -30,24 +31,50 @@ var util = {
 		if(!plus.device.uuid){
 			mui.alert("设备唯一值获取失败！"+plus.os.uuid,'提示')
 		}
-		localStorage.setItem('uuid',plus.device.uuid);
 		
 		if(!app.isLogin()){
 			util.log('no login ')// 没有登录时打开登录页
 			
-//			mui.openWindow({
-//				url:"html/loginreg/login.html",
-//				preload:true,
-//				styles:{
-//					popGesture: 'hide'
-//				},
-//				waiting: {
-//					autoShow: true
-//				}
-//			})
+			mui.openWindow({
+				url:"html/loginreg/login.html",
+				preload:true,
+				styles:{
+					popGesture: 'hide'
+				},
+				waiting: {
+					autoShow: true
+				}
+			})
 			return false;
+		}else{
+			var e = app.getState()
+			util.log(e)
+			mui.alert('最后登陆时间：'+e.lasttime+"\n最后登陆ip："+e.lastip+"\ntoken为："+e.token,'主人，请查阅~')
 		}
 	},
+	/**
+	 *  普通的post请求方法
+	 **/
+	 query_post : function(api_name, data, callback, error){
+		  //拼接请求的URL地址
+		  var fullapi = HOST + '?service=' + api_name;
+		  //执行请求
+		  mui.ajax(fullapi,{
+			data:data,
+			type:'POST',//HTTP请求类型
+			timeout:10000,//超时时间设
+			success:function(rs){
+			
+		        //回调函数
+		        callback(rs);
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				error(xhr,type,errorThrown)
+			}
+		});
+	},
+
 	/**
 	 *  简单封装了绘制原生view控件的方法
 	 *  绘制内容支持font（文本，字体图标）,图片img , 矩形区域rect

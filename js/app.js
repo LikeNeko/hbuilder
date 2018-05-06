@@ -13,31 +13,36 @@
 		loginInfo.account = loginInfo.account || '';
 		loginInfo.password = loginInfo.password || '';
 
-		if(loginInfo.account.length < 5) {
-			return callback('账号最短为 5 个字符');
+		if(loginInfo.account.length < 6) {
+			return callback('账号最短为 6 个字符');
 		}
-		if(loginInfo.password.length < 6) {
-			return callback('密码最短为 6 个字符');
+		if(loginInfo.password.length < 8) {
+			return callback('密码最短为 8 个字符');
 		}
-		var users = JSON.parse(localStorage.getItem('$users') || '[]');
-		var authed = users.some(function(user) {
-			return loginInfo.account == user.account && loginInfo.password == user.password;
-		});
-		if(authed) {
-			return owner.createState(loginInfo.account, callback);
+		var uuid = plus.device.uuid;
+		if(uuid) {
+			loginInfo.uuid = uuid;
 		} else {
-			return callback('用户名或密码错误');
+			return callback('设备id获取失败');
 		}
+		
+		util.query_post(uapi.login_user,loginInfo,function(e){
+			//服务器返回响应，根据响应结果，分析是否登录成功；
+			if(e.ret == 200) {
+				var user = e.data;
+				owner.setState(user)
+				return callback();
+			} else {
+				util.log(e.msg)
+				return callback(e.msg);
+			}
+		},function(xhr,type,errorThrown){
+			return callback('网络超时，请重新提交')
+		})
+		
+	
 	};
 
-	owner.createState = function(userinfo, callback) {
-		var state = owner.getState();
-		state.account = userinfo.nickname || userinfo;
-		state.token = userinfo.openid;
-		state.all = userinfo;
-		owner.setState(state);
-		return callback();
-	};
 
 	/**
 	 * 新用户注册
@@ -58,35 +63,26 @@
 		if(!checkEmail(regInfo.email)) {
 			return callback('邮箱地址不合法');
 		}
-		var uuid = localStorage.getItem('uuid');
+		var uuid = plus.device.uuid;
 		if(uuid) {
 			regInfo.uuid = uuid;
 		} else {
 			return callback('设备id获取失败');
 		}
 	
-		mui.ajax(uapi.reg_user,{
-			data:regInfo,
-			type:'POST',//HTTP请求类型
-			timeout:10000,//超时时间设
-			success:function(e){
-				//服务器返回响应，根据响应结果，分析是否登录成功；
-				if(e.ret == 200) {
-					if(e.data.uid != 0) {
-						regInfo.uid = e.data.uid;
-						this.setState(regInfo)
-						return callback();
-					}
-					
-				} else {
-					return callback("注册失败服务器出错！"+e.msg);
+		util.query_post(uapi.reg_user,regInfo,function(e){
+			//服务器返回响应，根据响应结果，分析是否登录成功；
+			if(e.ret == 200) {
+				if(e.data.uid != 0) {
+					return callback();
 				}
-			},
-			error:function(xhr,type,errorThrown){
-				//异常处理；
-				return callback("网络超时！请重新提交~")
+				
+			} else {
+				return callback("注册失败服务器出错！"+e.msg);
 			}
-		});
+		},function(xhr,type,errorThrown){
+			return callback('网络超时，请重新提交')
+		})
 
 	};
 
@@ -94,7 +90,7 @@
 	 * 获取当前状态
 	 **/
 	owner.getState = function() {
-		var stateText = localStorage.getItem('userinfo') || "{}";
+		var stateText = plus.storage.getItem('userinfo') || "{}";
 		return JSON.parse(stateText);
 	};
 
@@ -102,15 +98,18 @@
 	 * 设置当前状态
 	 **/
 	owner.setState = function(state) {
+		
 		state = state || {};
-		localStorage.setItem("userinfo", JSON.stringify(state));
+		plus.storage.setItem("userinfo", JSON.stringify(state));
 	};
 	
-	// 判断用户是否登录
+	/**
+	 * 判断用户是否登录
+	 */
 	owner.isLogin = function(){
-		var data = this.getState();
-		util.log(data)
-		return data.uid ? true:false;
+		var data = owner.getState();
+		
+		return data.uid && data.token ? true:false;
 	}
 
 	var checkEmail = function(email) {

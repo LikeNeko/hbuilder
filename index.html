@@ -163,7 +163,7 @@
 					var self = plus.webview.currentWebview(),
 						leftPos = Math.ceil((window.innerWidth - 60) / 2); // 设置凸起大图标为水平居中
 						var height = document.documentElement.clientHeight || document.body.clientHeight;
-					
+			
 					// 打开app的检测操作
 					util.selfCheck()
 					
@@ -353,12 +353,25 @@
 						} else {
 							//第四个tab 打开个人信息窗口，未登录展示登录页
 							if(app.isLogin()){
+								mui.openWindow({
+									url: 'html/loginreg/userinfo-window.html',
 								
+									preload: true,
+									show: {
+										aniShow: 'fade-in'
+									},
+									styles: {
+										popGesture: 'hide'
+									},
+									waiting: {
+										autoShow: true
+									}
+								})
 							}else{
 								
 								mui.openWindow({
 									url: 'html/loginreg/login.html',
-									id: 'login',
+									
 									preload: true,
 									show: {
 										aniShow: 'pop-in'
