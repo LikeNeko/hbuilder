@@ -107,6 +107,7 @@
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/vue.min.js"></script>
 		<script src="../../js/util.js"></script>
 		<script type="text/javascript">
@@ -117,7 +118,7 @@
 						contentdown : "喵?不要拉咱!~",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
 				        contentover : "放开咱啦！！！",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
 				        contentrefresh : "好可恶！（啜泣~",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
-						auto: user.isLogin(),// 登录了则第一次自动刷新
+						auto: app.isLogin(),// 登录了则第一次自动刷新
 						callback: pulldownRefresh
 					}
 				}
@@ -143,7 +144,7 @@
 			function pulldownRefresh() {
 				
 				setTimeout(function() {
-					if(user.isLogin()){
+					if(app.isLogin()){
 						for(var i=0;i<10;i++){
 							vue.msg.push(
 								{ 

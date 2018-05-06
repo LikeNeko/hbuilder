@@ -3168,8 +3168,9 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 				setHeader(name, settings.headers[name]);
 		}
 		xhr.setRequestHeader = setHeader;
-
+		
 		xhr.onreadystatechange = function() {
+			console.log(xhr.readyState)
 			if(xhr.readyState === 4) {
 				xhr.onreadystatechange = $.noop;
 				clearTimeout(abortTimeout);

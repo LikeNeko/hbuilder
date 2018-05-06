@@ -1,15 +1,8 @@
 var HOST = "http://api.nekom.cc/";
 var uapi = {
-	question: HOST + "?s=GetQuestions.Question",
-	set_reply:HOST + "?s=GetQuestions.SetReply"
-}
-var user = {
-	// 判断用户是否登录
-	isLogin:function(){
-		localStorage.setItem('islogin','0');
-		
-		return localStorage.getItem('islogin')==0?false:true;
-	}
+	question: HOST + "?s=Questions.GetQuestion",// 获取问题列表
+	set_reply:HOST + "?s=Questions.SetReply",//提交问题
+	reg_user: HOST + "?s=User.SetUser"
 	
 }
 
@@ -37,20 +30,21 @@ var util = {
 		if(!plus.device.uuid){
 			mui.alert("设备唯一值获取失败！"+plus.os.uuid,'提示')
 		}
+		localStorage.setItem('uuid',plus.device.uuid);
 		
-		if(!user.isLogin()){
+		if(!app.isLogin()){
 			util.log('no login ')// 没有登录时打开登录页
 			
-			mui.openWindow({
-				url:"html/loginreg/login.html",
-				preload:true,
-				styles:{
-					popGesture: 'hide'
-				},
-				waiting: {
-					autoShow: true
-				}
-			})
+//			mui.openWindow({
+//				url:"html/loginreg/login.html",
+//				preload:true,
+//				styles:{
+//					popGesture: 'hide'
+//				},
+//				waiting: {
+//					autoShow: true
+//				}
+//			})
 			return false;
 		}
 	},
@@ -119,7 +113,7 @@ var util = {
 			temp[targetPage.id] = "true";
 			mui.extend(aniShow, temp);
 		
-			plus.webview.show(targetPage, "fade-in", 200);
+			plus.webview.show(targetPage, "none", 200);
 		}
 		
 		//隐藏当前 除了第一个父窗口

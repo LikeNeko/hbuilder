@@ -139,6 +139,7 @@
 			
 			</div>
 		</div>
+		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.min.js"></script>
 		<script src="js/util.js"></script>
 		<script type="text/javascript">
@@ -351,7 +352,7 @@
 							activePage = targetPage;
 						} else {
 							//第四个tab 打开个人信息窗口，未登录展示登录页
-							if(user.isLogin()){
+							if(app.isLogin()){
 								
 							}else{
 								
@@ -374,6 +375,16 @@
 						}
 				
 					});
+					
+					//添加newId自定义事件监听
+					window.addEventListener('reg_update',function(event){
+					  	//获得事件参数
+					  	if(event.detail.update){
+					  		
+					  	}
+					  
+					
+					});
 					/**
 					 * Mine
 					 */
@@ -381,7 +392,7 @@
 						mui.openWindow({
 							url: 'html/game/mine/index.html',
 						
-							preload: false,
+							preload: true,
 							show: {
 								aniShow: 'pop-in'
 							},
@@ -389,7 +400,7 @@
 								popGesture: 'hide'
 							},
 							waiting: {
-								autoShow: false
+								autoShow: true
 							}
 						})
 							

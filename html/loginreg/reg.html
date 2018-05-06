@@ -32,7 +32,26 @@
 			.mui-btn {
 				padding: 10px;
 			}
-			
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea {
+			    width: 83%;
+			}
+			.mui-input-group label {
+			    width: 17%;
+			}
+			.mui-input-row label {
+			    font-family: 'Helvetica Neue',Helvetica,sans-serif;
+			    line-height: 1.1;
+			    float: left;
+			    width: 35%;
+			    padding: 12px 17px;
+			}
+			.mui-input-row label {
+			    font-family: 'Helvetica Neue',Helvetica,sans-serif;
+			    line-height: 1.1;
+			    float: left;
+			    width: 17%;
+			    padding: 12px 17px;
+			}
 		</style>
 	</head>
 
@@ -61,18 +80,22 @@
 				</div>
 			</form>
 			<div class="mui-content-padded">
-				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary" data-loading-text="提交中">注册</button>
 			</div>
 			<div class="mui-content-padded">
 				<p></p>
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/util.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/app.js"></script>
+		
 		<script>
 			(function($, doc) {
 				$.init();
 				$.plusReady(function() {
+					util.log('注册页面加载')
+					
 					var settings = app.getSettings();
 					var regButton = doc.getElementById('reg');
 					var accountBox = doc.getElementById('account');
@@ -80,6 +103,9 @@
 					var passwordConfirmBox = doc.getElementById('password_confirm');
 					var emailBox = doc.getElementById('email');
 					regButton.addEventListener('tap', function(event) {
+						
+						
+						var _self = this;
 						var regInfo = {
 							account: accountBox.value,
 							password: passwordBox.value,
@@ -90,19 +116,17 @@
 							plus.nativeUI.toast('密码两次输入不一致');
 							return;
 						}
+						mui(_self).button("loading");
+						
 						app.reg(regInfo, function(err) {
+							mui(_self).button("reset")
 							if (err) {
-								plus.nativeUI.toast(err);
+								mui.toast(err)
 								return;
-							}
-							plus.nativeUI.toast('注册成功');
-							$.openWindow({
-								url: 'login.html',
-								id: 'login',
-								show: {
-									aniShow: 'pop-in'
-								}
-							});
+							} 
+							mui.toast('注册成功');
+							$.fire(plus.webview.getLaunchWebview(),'reg_update',{update:true})
+							$.back()
 						});
 					});
 				});
